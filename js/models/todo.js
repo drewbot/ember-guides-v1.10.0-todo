@@ -7,12 +7,12 @@ Todos.Todo.FIXTURES = [
  {
    id: 1,
    title: 'Learn Ember.js',
-   isCompleted: true
+   isCompleted: false
  },
  {
    id: 2,
    title: 'boom',
-   isCompleted: false
+   isCompleted: true
  },
  {
    id: 3,
