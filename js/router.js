@@ -2,6 +2,7 @@ Todos.Router.map(function () {
   this.resource('todos', { path: '/' }, function () {
     // additional child routes will go here later
     this.route('active');
+    this.route('completed');
   });
 });
 
@@ -22,10 +23,26 @@ Todos.TodosIndexRoute = Ember.Route.extend({
 // Nested route (IS included in Router above)
 // Transition to show all active todos
 Todos.TodosActiveRoute = Ember.Route.extend({
-	// The model data for this route is the collection of todos whose isCompleted property is false.
+	// The model data for this route is the collection of todos whose isCompleted property is false
   model: function(){
     return this.store.filter('todo', function(todo) {
       return !todo.get('isCompleted');
+    });
+  },
+
+  // reuse the existing todos/index template and corresponding controller
+  renderTemplate: function(controller) {
+    this.render('todos/index', {controller: controller});
+  }
+});
+
+// Nested route (IS included in Router above)
+// Transition to show all active todos
+Todos.TodosCompletedRoute = Ember.Route.extend({
+	// The model data for this route is the collection of todos whose isCompleted property is true
+  model: function() {
+    return this.store.filter('todo', function(todo) {
+      return todo.get('isCompleted');
     });
   },
 
