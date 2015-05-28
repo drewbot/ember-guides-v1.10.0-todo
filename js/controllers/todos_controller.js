@@ -48,6 +48,10 @@ Todos.TodosController = Ember.ArrayController.extend({
   // for completed count in todos template
   completed: function() {
     return this.filterBy('isCompleted', true).get('length');
+  }.property('@each.isCompleted'),
+
+  allAreDone: function(key, value) {
+    return !!this.get('length') && this.isEvery('isCompleted');
   }.property('@each.isCompleted')
 
 });
