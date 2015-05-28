@@ -17,6 +17,17 @@ Todos.TodosController = Ember.ArrayController.extend({
 
       // Save the new model
       todo.save();
+    },
+
+    // when action is fired find model instances which are completed
+    // clear the completed instances locally and persist the action
+    clearCompleted: function() {
+      // filterBy is from the arrayController api, returns an instance of EmberArray
+      var completed = this.filterBy('isCompleted', true);
+      // invoke (EmberArray api) executes a method 
+      // on each object in the Array if the method exists on that object
+      completed.invoke('deleteRecord');
+      completed.invoke('save');
     }
   },
 
@@ -27,6 +38,16 @@ Todos.TodosController = Ember.ArrayController.extend({
   inflection: function() {
     var remaining = this.get('remaining');
     return remaining === 1 ? 'item' : 'items';
-  }.property('remaining')
+  }.property('remaining'),
+
+  // for if conditional in todos template
+  hasCompleted: function() {
+    return this.get('completed') > 0;
+  }.property('completed'),
+
+  // for completed count in todos template
+  completed: function() {
+    return this.filterBy('isCompleted', true).get('length');
+  }.property('@each.isCompleted')
 
 });
